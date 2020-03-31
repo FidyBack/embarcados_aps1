@@ -11,6 +11,7 @@
 typedef struct  {
 	int *mel;
 	int *t;
+	int size;
 } Music;
 
 // Led 1
@@ -72,8 +73,7 @@ void init(void) {
 }
 
 void monofony(Music music) {
-	int size = sizeof(music.mel)/sizeof(int);
-	for (int note = 0; note < size; note++){
+	for (int note = 0; note < music.size; note++){
 
 		long delay = 1000000/music.mel[note]/2;
 		int duration = 1000/music.t[note];
@@ -102,10 +102,15 @@ int main(void) {
 	WDT->WDT_MR = WDT_MR_WDDIS;
 	
 	// Declaração das variáveis de cada música
-	Music underworld;
+	Music mario, underworld;
+	
+	mario.mel = &mario_melody;
+	mario.t = &mario_tempo;
+	mario.size = sizeof(mario_melody)/sizeof(int);
 	
 	underworld.mel = &underworld_melody;
 	underworld.t = &underworld_tempo;
+	underworld.size = sizeof(underworld_melody)/sizeof(int);
 
 	while (1) {
 		monofony(underworld);
